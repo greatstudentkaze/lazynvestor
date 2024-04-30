@@ -1,113 +1,153 @@
-import Image from "next/image";
+import { OperationsService } from '@/app/services/operations-service';
+import { InstrumentsService } from '@/app/services/instruments-service';
+import { MoneyValue, PortfolioPosition } from '@/app/types';
 
-export default function Home() {
-  return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">src/app/page.tsx</code>
-        </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:size-auto lg:bg-none">
-          <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
-      </div>
+const ICON_PORTFOLIO = [
+    {
+        share: 'VKCO',
+        amount: 2_000_000,
+        currency: 'rub',
+    },
+    {
+        share: 'VTBR',
+        amount: 2_000_000,
+        currency: 'rub',
+    },
+    {
+        share: 'GAZP',
+        amount: 1_000_000,
+        currency: 'rub',
+    },
+    {
+        share: 'NVTK',
+        amount: 2_000_000,
+        currency: 'rub',
+    },
+    {
+        share: 'POLY',
+        amount: 1_000_000,
+        currency: 'rub',
+    },
+    {
+        share: 'TCSG',
+        amount: 4_000_000,
+        currency: 'rub',
+    },
+    {
+        share: 'SMLT',
+        amount: 2_000_000,
+        currency: 'rub',
+    },
+];
 
-      <div className="relative z-[-1] flex place-items-center before:absolute before:h-[300px] before:w-full before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-full after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40 sm:before:w-[480px] sm:after:w-[240px] before:lg:h-[360px]">
-        <Image
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
+const IIS = 2060172075;
 
-      <div className="mb-32 grid text-center lg:mb-0 lg:w-full lg:max-w-5xl lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Docs{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
+const PRECISION = 3;
 
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Learn{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
+const round = (value: number, precision = PRECISION): number => {
+    const roundingFactor = 10 ** precision;
 
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Templates{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Explore starter templates for Next.js.
-          </p>
-        </a>
+    return Math.round(value * roundingFactor) / roundingFactor;
+};
 
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Deploy{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-balance text-sm opacity-50">
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
-  );
-}
+const getPortfolioWithDistributionRatio = (portfolio: typeof ICON_PORTFOLIO) => {
+    const totalAmount = portfolio.reduce((acc, { amount }) => acc + amount, 0);
+
+    return portfolio.map(({ amount, ...item }) => {
+       return {
+           ...item,
+           amount,
+           ratio: round(amount / totalAmount),
+       };
+    });
+};
+
+const AMOUNT_TO_INVEST = 900_000;
+
+const getPortfolioPositions = async (): Promise<Record<PortfolioPosition['ticker'], PortfolioPosition>> => {
+    const portfolio = await OperationsService.getPortfolio(IIS);
+
+    const result: Record<string, PortfolioPosition> = {};
+    const promises: Promise<void>[] = [];
+
+    console.log(portfolio.positions);
+
+    portfolio.positions.forEach(({ figi, averagePositionPrice, quantity, currentPrice  }) => {
+        promises.push(
+            InstrumentsService.getShare(figi)
+                .then((it) => {
+                    console.log(it);
+                    const ticker = it.instrument?.ticker;
+                    if (ticker) {
+                        result[figi].ticker = ticker;
+                        return;
+                    }
+
+                    delete result[figi];
+                })
+        );
+
+        const qty = Number(quantity.units);
+
+        const getTotal = (value: MoneyValue, quantity: number) => quantity * Number(value.units) + quantity * parseFloat(`0.${value.nano}`) / 10;
+
+        result[figi] = {
+            id: figi,
+            quantity: qty,
+            currentPrice: getTotal(currentPrice, qty),
+            averagePositionPrice: getTotal(averagePositionPrice, qty),
+            ticker: '',
+        };
+    });
+
+    await Promise.all(promises);
+
+    return Object.values(result).reduce((res, { ticker, ...item }) => {
+        res[ticker] = {
+            ticker,
+            ...item
+        };
+
+        return res;
+    }, {} as Record<PortfolioPosition['ticker'], PortfolioPosition>);
+};
+
+const Home = async () => {
+    const portfolioWithDistributionRatio = getPortfolioWithDistributionRatio(ICON_PORTFOLIO);
+
+    const portfolio = await getPortfolioPositions();
+
+    return (
+        <main className="min-h-screen p-24 space-y-8">
+            <section>
+                <h2 className="mb-2">Идеальный портфель</h2>
+                <ul>
+                    {portfolioWithDistributionRatio.map(({ share, amount, currency, ratio }) => (
+                        <li key={share}>{share} – {amount} {currency}. / {ratio}</li>
+                    ))}
+                </ul>
+            </section>
+
+            <section>
+                <h2 className="mb-2">Сумма к инвестированию {AMOUNT_TO_INVEST} rub., состояние по плану:</h2>
+                <ul>
+                    {portfolioWithDistributionRatio.map(({ share, currency, ratio }) => (
+                        <li key={share}>{share} – {portfolio[share]?.averagePositionPrice ?? 0} / {round(AMOUNT_TO_INVEST * ratio)} {currency}.</li>
+                    ))}
+                </ul>
+            </section>
+
+            {/*<section>*/}
+            {/*    <h2 className="mb-2">Позиции в портфеле ИИС</h2>*/}
+            {/*    <ul>*/}
+            {/*        {Object.values(portfolio).map(({ id, currentPrice, averagePositionPrice, ticker  }) => (*/}
+            {/*            <li key={id}>{id}, #{ticker} – {averagePositionPrice} / current price {currentPrice}</li>*/}
+            {/*        ))}*/}
+            {/*    </ul>*/}
+            {/*</section>*/}
+
+        </main>
+    );
+};
+
+export default Home;
