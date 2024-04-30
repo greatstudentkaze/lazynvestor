@@ -24,3 +24,12 @@ export interface PortfolioPosition {
     currentPrice: number;
     averagePositionPrice: number;
 }
+
+export interface IdealPortfolioPosition {
+    share: string;
+    currency: string;
+    amount: number;
+    ratio: number;
+    goal: number;
+    averagePositionPrice: number;
+}
