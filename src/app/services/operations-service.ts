@@ -6,7 +6,7 @@ interface PortfolioResponse {
 }
 
 export class OperationsService extends TinkoffService {
-    static serviceUrl = `/tinkoff.public.invest.api.contract.v1.OperationsService`;
+    static serviceUrl = '/tinkoff.public.invest.api.contract.v1.OperationsService';
 
     static getPortfolio = async (accountId: number): Promise<PortfolioResponse> => {
         return OperationsService.sendRequest(`${OperationsService.serviceUrl}/GetPortfolio`, {
