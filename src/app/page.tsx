@@ -2,6 +2,8 @@ import { OperationsService } from '@/app/services/operations-service';
 import { InstrumentsService } from '@/app/services/instruments-service';
 import { MoneyValue, PortfolioPosition } from '@/app/types';
 
+import { Dashboard } from './dashboard';
+
 const ICON_PORTFOLIO = [
     {
         share: 'VKCO',
@@ -118,7 +120,7 @@ const Home = async () => {
     const portfolio = await getPortfolioPositions();
 
     return (
-        <main className="min-h-screen p-24 space-y-8">
+        <Dashboard>
             <section>
                 <h2 className="mb-2">Идеальный портфель</h2>
                 <ul>
@@ -136,17 +138,7 @@ const Home = async () => {
                     ))}
                 </ul>
             </section>
-
-            {/*<section>*/}
-            {/*    <h2 className="mb-2">Позиции в портфеле ИИС</h2>*/}
-            {/*    <ul>*/}
-            {/*        {Object.values(portfolio).map(({ id, currentPrice, averagePositionPrice, ticker  }) => (*/}
-            {/*            <li key={id}>{id}, #{ticker} – {averagePositionPrice} / current price {currentPrice}</li>*/}
-            {/*        ))}*/}
-            {/*    </ul>*/}
-            {/*</section>*/}
-
-        </main>
+        </Dashboard>
     );
 };
 
