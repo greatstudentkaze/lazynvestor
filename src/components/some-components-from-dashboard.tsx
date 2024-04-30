@@ -1,84 +1,43 @@
-import Image from 'next/image'
-import Link from 'next/link'
+import Link from 'next/link';
 import {
-    ChevronLeft,
-    ChevronRight,
-    Copy,
-    CreditCard,
-    File,
+    ChevronLeft, ChevronRight,
+    Copy, CreditCard, File,
     Home,
-    LineChart,
-    ListFilter,
-    MoreVertical,
+    LineChart, ListFilter, MoreVertical,
     Package,
     Package2,
     PanelLeft,
     Search,
     Settings,
-    ShoppingCart,
-    Truck,
+    ShoppingCart, Truck,
     Users2,
-} from 'lucide-react'
-
-import { Badge } from '@/components/ui/badge'
+} from 'lucide-react';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
+import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
+import { Button } from '@/components/ui/button';
 import {
     Breadcrumb,
     BreadcrumbItem,
     BreadcrumbLink,
-    BreadcrumbList,
-    BreadcrumbPage,
+    BreadcrumbList, BreadcrumbPage,
     BreadcrumbSeparator,
-} from '@/components/ui/breadcrumb'
-import { Button } from '@/components/ui/button'
+} from '@/components/ui/breadcrumb';
+import { Input } from '@/components/ui/input';
 import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardFooter,
-    CardHeader,
-    CardTitle,
-} from '@/components/ui/card'
-import {
-    DropdownMenu,
-    DropdownMenuCheckboxItem,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuLabel,
-    DropdownMenuSeparator,
+    DropdownMenu, DropdownMenuCheckboxItem,
+    DropdownMenuContent, DropdownMenuItem,
+    DropdownMenuLabel, DropdownMenuSeparator,
     DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
-import { Input } from '@/components/ui/input'
-import {
-    Pagination,
-    PaginationContent,
-    PaginationItem,
-} from '@/components/ui/pagination'
-import { Progress } from '@/components/ui/progress'
-import { Separator } from '@/components/ui/separator'
-import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
-import {
-    Table,
-    TableBody,
-    TableCell,
-    TableHead,
-    TableHeader,
-    TableRow,
-} from '@/components/ui/table'
-import {
-    Tabs,
-    TabsContent,
-    TabsList,
-    TabsTrigger,
-} from '@/components/ui/tabs'
-import {
-    Tooltip,
-    TooltipContent,
-    TooltipTrigger,
-    TooltipProvider
-} from '@/components/ui/tooltip'
-import { FC, PropsWithChildren } from 'react';
+} from '@/components/ui/dropdown-menu';
+import Image from 'next/image';
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { Separator } from '@/components/ui/separator';
+import { Pagination, PaginationContent, PaginationItem } from '@/components/ui/pagination';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { Badge } from '@/components/ui/badge';
 
-const Menu = () => {
+export const Menu = () => {
     return (
         <aside className="fixed inset-y-0 left-0 z-10 hidden w-14 flex-col border-r bg-background sm:flex">
             <nav className="flex flex-col items-center gap-4 px-2 sm:py-5">
@@ -180,7 +139,7 @@ const Menu = () => {
     );
 };
 
-const Header = () => {
+export const Header = () => {
     return (
         <header className="sticky top-0 z-30 flex h-14 items-center gap-4 border-b bg-background px-4 sm:static sm:h-auto sm:border-0 sm:bg-transparent sm:px-6">
             <Sheet>
@@ -293,7 +252,7 @@ const Header = () => {
     );
 };
 
-const Order = () => {
+export const Order = () => {
     return (
         <div>
             <Card
@@ -453,7 +412,7 @@ const Order = () => {
     );
 };
 
-const Orders = () => {
+export const Orders = () => {
     return (
 
         <Tabs defaultValue="week">
@@ -693,68 +652,3 @@ const Orders = () => {
         </Tabs>
     );
 };
-
-export const Dashboard: FC<PropsWithChildren> = ({ children }) => {
-    return (
-        <div className="flex min-h-screen w-full flex-col bg-muted/40">
-            {/*<Menu />*/}
-            <div className="flex flex-col sm:gap-4 sm:py-4 sm:pl-14">
-                {/*<Header />*/}
-                <main className="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8 lg:grid-cols-3 xl:grid-cols-3">
-
-                    <div className="grid auto-rows-max items-start gap-4 md:gap-8 lg:col-span-2">
-                        <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-2 xl:grid-cols-4">
-                            <Card
-                                className="sm:col-span-2" x-chunk="dashboard-05-chunk-0"
-                            >
-                                <CardHeader className="pb-3">
-                                    <CardTitle>Идеальный портфель</CardTitle>
-                                    <CardDescription className="max-w-lg text-balance leading-relaxed">
-                                        Introducing Our Dynamic Orders Dashboard for Seamless
-                                        Management and Insightful Analysis.
-
-                                        {/*{children}*/}
-                                    </CardDescription>
-                                </CardHeader>
-                                <CardFooter>
-                                    <Button>Create New Order</Button>
-                                </CardFooter>
-                            </Card>
-                            <Card x-chunk="dashboard-05-chunk-1">
-                                <CardHeader className="pb-2">
-                                    <CardDescription>This Week</CardDescription>
-                                    <CardTitle className="text-4xl">$1,329</CardTitle>
-                                </CardHeader>
-                                <CardContent>
-                                    <div className="text-xs text-muted-foreground">
-                                        +25% from last week
-                                    </div>
-                                </CardContent>
-                                <CardFooter>
-                                    <Progress value={25} aria-label="25% increase" />
-                                </CardFooter>
-                            </Card>
-                            <Card x-chunk="dashboard-05-chunk-2">
-                                <CardHeader className="pb-2">
-                                    <CardDescription>This Month</CardDescription>
-                                    <CardTitle className="text-4xl">$5,329</CardTitle>
-                                </CardHeader>
-                                <CardContent>
-                                    <div className="text-xs text-muted-foreground">
-                                        +10% from last month
-                                    </div>
-                                </CardContent>
-                                <CardFooter>
-                                    <Progress value={12} aria-label="12% increase" />
-                                </CardFooter>
-                            </Card>
-                        </div>
-                        {/*<Orders />*/}
-                        {children}
-                    </div>
-                    {/*<Order />*/}
-                </main>
-            </div>
-        </div>
-    )
-}
