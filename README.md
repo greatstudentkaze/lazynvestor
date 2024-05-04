@@ -1,3 +1,13 @@
+tinkoff invest api:
+- https://russianinvestments.github.io/investAPI/swagger-ui/#/OperationsService/OperationsService_GetPortfolio
+- https://russianinvestments.github.io/investAPI/operations_problems/
+
+behance refs:
+- https://www.behance.net/gallery/177934545/Investment-portfolio-design-Virtual-platform?tracking_source=search_projects|investment+portfolio&l=3
+- https://www.behance.net/gallery/193250357/FINTECH-SWAP-CRYPTO-INVESTMENT-MOBILE-APP?tracking_source=search_projects|investment+portfolio&l=21
+- https://www.behance.net/gallery/179191689/UI-UX-Dashboard-Design-for-DEX-Trading-Portfolio
+- https://www.behance.net/gallery/193772379/VTB-Investments-Web-Home-page?tracking_source=search_projects|investments&l=68
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
